@@ -18,9 +18,9 @@ public class TicketPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    private String seatCode;
     private String seatType;
-    private String price;
+    private int price;
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean status;
 

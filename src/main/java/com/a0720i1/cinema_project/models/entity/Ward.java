@@ -1,10 +1,8 @@
 package com.a0720i1.cinema_project.models.entity;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,21 +11,18 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Invoice {
+public class Ward {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @JsonBackReference
-    @OneToMany(mappedBy = "invoice")
-    private List<Ticket> ticketList;
+    private Integer id;
+    private String name;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "membership_id", referencedColumnName = "id")
-    private Membership membership;
+    @JoinColumn(name = "district_id", referencedColumnName = "id")
+    private District district;
 
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
-    private PaymentMethod paymentMethod;
+    @OneToMany(mappedBy = "ward")
+    private List<Membership> membershipList;
 }
