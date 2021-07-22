@@ -28,7 +28,7 @@ public class Film {
     private LocalDate endDate;
     private String actors;
     private String studio;
-    private String duration;
+    private int duration;
     private String directors;
     private String category;
     private String description;

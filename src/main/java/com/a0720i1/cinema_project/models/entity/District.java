@@ -4,30 +4,25 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Invoice {
+public class District {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @JsonBackReference
-    @OneToMany(mappedBy = "invoice")
-    private List<Ticket> ticketList;
-
+    private Integer id;
+    private String name;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "membership_id", referencedColumnName = "id")
-    private Membership membership;
-
+    @JoinColumn(name = "province_id", referencedColumnName = "id")
+    private Province province;
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
-    private PaymentMethod paymentMethod;
+    @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
+    private List<Ward> wardList;
 }
