@@ -9,10 +9,10 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
-    private static final String MY_EMAIL = "";
+    private static final String MY_EMAIL = "a0720i1.cg.dn@gmail.com";
 
 
-    private static final String MY_PASSWORD = "";
+    private static final String MY_PASSWORD = "a0720i1cgdn";
 
 
     @Bean

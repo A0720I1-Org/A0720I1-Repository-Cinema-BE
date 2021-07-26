@@ -1,6 +1,7 @@
 package com.a0720i1.cinema_project.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,6 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Membership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +27,16 @@ public class Membership {
     private LocalDate birthday;
     private String gender;
     private String imageURL;
+
     @ManyToOne
     @JoinColumn(name = "ward_id", referencedColumnName = "id")
     private Ward ward;
-    @JsonBackReference
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
-    @JsonBackReference
+   @JsonIgnore
     @OneToMany(mappedBy = "membership")
     private List<Invoice> invoiceList;
 }

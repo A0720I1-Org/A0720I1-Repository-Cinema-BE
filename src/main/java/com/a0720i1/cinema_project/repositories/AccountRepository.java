@@ -10,13 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Long> {
     Account findAccountByUsername(String username);
-
-    @Query(value = "select id from account where username = ?1 limit 1", nativeQuery = true)
-    int findIdUserByUsername(String username);
-
+    @Transactional
     @Modifying
-    @Query(value = "insert into account(username, password, is_enabled) values (?1, ?2, ?3)", nativeQuery = true)
-    void add(String username, String password, int isEnable);
+    @Query(value = "insert into account(username, password, is_enable) values (?1, ?2, 1)", nativeQuery = true)
+    void createAccount(String username, String password);
 
     @Transactional
     @Modifying
