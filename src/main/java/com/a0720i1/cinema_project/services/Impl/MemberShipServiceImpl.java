@@ -58,6 +58,13 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     public void createMembershipSocial(Membership membership) {
-        memberShipRepository.createMembershipWithSocial(membership.getEmail(),membership.getAccount().getId());
+        memberShipRepository.createMembershipWithSocial(membership.getEmail(),membership.getAccount().getId(),this.generateMemberCode());
+    }
+    public String generateMemberCode() {
+        int number1 = (int) Math.floor(1000 + Math.random() * 9000);
+        int number2 = (int) Math.floor(1000 + Math.random() * 9000);
+        int number3 = (int) Math.floor(1000 + Math.random() * 9000);
+        int number4 = (int) Math.floor(1000 + Math.random() * 9000);
+        return number1+"-"+number2+"-"+number3+"-"+number4;
     }
 }

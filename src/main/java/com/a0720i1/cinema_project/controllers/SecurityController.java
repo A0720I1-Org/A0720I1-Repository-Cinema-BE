@@ -109,7 +109,7 @@ public class SecurityController {
             LoginRequest jwtRequest = new LoginRequest(account.getUsername(), account.getPassword());
             jwtResponse = loginSocial(jwtRequest);
             jwtResponse.setAccount(accountService.findByUsername(account.getUsername()));
-            jwtResponse.setMembership(memberShipService.findByAccountId(account.getId()));
+            jwtResponse.setMembership(memberShipService.findByEmail(payload.getEmail()));
             return ResponseEntity.ok(jwtResponse);
         }
         account = membership.getAccount();
@@ -157,26 +157,28 @@ public class SecurityController {
                 .collect(Collectors.toList());
         return new JwtResponse(token,roles);
     }
-    @GetMapping("/api/public/forgot-password/{username}")
+    @PutMapping("/api/public/forgot-password/{username}")
     public ResponseEntity<?> forgotPassword(@PathVariable String username) {
         Account account = accountService.findByUsername(username);
+        Map<String, String> listError = new HashMap<>();
         if(account == null) {
-            return ResponseEntity.badRequest().body("tìm ko thấy tên tài khoản này");
+            listError.put("nonExistUsername", "Tên đăng nhập không tồn tại , vui lòng chọn tên đăng nhập khác!");
+            if(!listError.isEmpty()) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(listError);
+            }
         }
         Membership membership = memberShipService.findByAccountId(account.getId());
         String email = membership.getEmail();
         String code = accountService.generateCode();
-        System.out.println(code);
-        accountService.sendEmailOTP(email,code);
+//        accountService.sendEmailOTP(email,code);
         return ResponseEntity.ok(code);
     }
     @GetMapping("/api/public/reset-password/{username}")
     public ResponseEntity<?> resetPassword(@PathVariable String username) {
         Account account = accountService.findByUsername(username);
-        if(account == null) {
-            return ResponseEntity.badRequest().body("tìm ko thấy tên tài khoản này");
-        }
-        accountService.changePasswordByForgot("123456",account);
+        accountService.changePasswordByForgot("12345678",account);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/api/public/register")

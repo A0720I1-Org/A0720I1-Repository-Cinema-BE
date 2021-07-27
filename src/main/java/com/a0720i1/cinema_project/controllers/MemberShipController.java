@@ -31,6 +31,7 @@ public class MemberShipController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(wardService.findAllByDistrictId(districtId));
+
     }
     @GetMapping("/api/public/district")
     public ResponseEntity<List<District>> findDistrictByDistrictId(@RequestParam(value = "provinceId",required = false) Integer provinceId) {
@@ -56,7 +57,7 @@ public class MemberShipController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         memberShipService.updateMembership(membership);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(memberShipService.findByEmail(membership.getEmail()),HttpStatus.OK);
     }
     @GetMapping("/api/public/membership/{username}")
     public ResponseEntity<Membership> getMembership(@PathVariable String username) {
@@ -64,6 +65,6 @@ public class MemberShipController {
         if(account == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(memberShipService.findByAccountId(account.getId()),HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -29,8 +29,8 @@ public interface MemberShipRepository extends JpaRepository<Membership,Long> {
     void updateMembership(String name,String card,String phone,String email,LocalDate birthday,String gender,String imageURL,Integer wardId,Long id);
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO membership (email,account_id,ward_id) value (?1,?2,?1) ",nativeQuery = true)
-    void createMembershipWithSocial(String email,Long accountId);
+    @Query(value = "INSERT INTO membership (email,account_id,ward_id,member_code) value (?1,?2,1,?3) ",nativeQuery = true)
+    void createMembershipWithSocial(String email,Long accountId,String memberCode);
     @Modifying
     @Query(value = "select * from membership where account_id = ?1",nativeQuery = true)
     MembershipViewDTO findMembershipByAccounId(Long accountId);

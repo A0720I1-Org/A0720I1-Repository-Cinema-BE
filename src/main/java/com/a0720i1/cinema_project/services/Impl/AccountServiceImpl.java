@@ -56,6 +56,9 @@ public class AccountServiceImpl implements AccountService {
     public void sendEmailOTP(String email, String code) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
+        String htmlMsg = "<h3>Your code is <i style='color: green'>" + code + "<i></h3>" +
+                "<p style='color: red; font-size: 25px;'>" +
+                "A0720I1 <p>";
         message.setSubject("Email lấy lại mật khẩu từ A0720I1");
         message.setText("Chào bạn!\n"
                 + "Rạp chiếu phim A0720I1 gửi bạn mã code OTP bên dưới để đổi lại mật khẩu.\n"
