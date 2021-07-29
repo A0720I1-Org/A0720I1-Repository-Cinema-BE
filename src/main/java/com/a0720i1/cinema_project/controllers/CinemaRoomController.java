@@ -5,26 +5,42 @@ import com.a0720i1.cinema_project.models.entity.CinemaRoom;
 import com.a0720i1.cinema_project.services.CinemaRoomService;
 import com.a0720i1.cinema_project.services.Impl.CinemaRoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class CinemaRoomController {
     @Autowired
     private CinemaRoomServiceImpl cinemaRoomService;
 
     @GetMapping("admin/cinema-room/list")
-    public ResponseEntity<List<ListCinemaRoomDTO>> getAllListCinemaRoom() {
-        List<ListCinemaRoomDTO> listCinemaRoomDTOS = cinemaRoomService.listCinemaRoom();
+    public ResponseEntity<Page<ListCinemaRoomDTO>> getAllListCinemaRoom(@PageableDefault(size = 4)Pageable pageable) {
+        Page<ListCinemaRoomDTO> listCinemaRoomDTOS = cinemaRoomService.listCinemaRoom(pageable);
         if (listCinemaRoomDTOS.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(listCinemaRoomDTOS, HttpStatus.OK);
+        }
+    }
+    @GetMapping("admin/cinema-room/search")
+    public ResponseEntity<Page<ListCinemaRoomDTO>> getListSearchByName(@PageableDefault(size = 4)Pageable pageable,
+                                                                 @RequestParam(defaultValue = "") String name) {
+        Page<ListCinemaRoomDTO> listSearchCinemaRoom = cinemaRoomService.searchByName(name,pageable);
+        if (listSearchCinemaRoom.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(listSearchCinemaRoom, HttpStatus.OK);
         }
     }
 
@@ -37,4 +53,5 @@ public class CinemaRoomController {
             return new ResponseEntity<>(cinemaRoomById, HttpStatus.OK);
         }
     }
+
 }
