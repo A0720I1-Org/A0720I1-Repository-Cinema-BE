@@ -25,9 +25,8 @@ public interface CinemaRoomRepository extends JpaRepository<CinemaRoom,Long> {
             "where id=?1",nativeQuery = true)
     ListCinemaRoomDTO getCinemaRoomById(long id);
 
-    @Query(value = "select cinema_room.id as id,cinema_room.name as name,cinema_room.row_seat as rowSeat" +
-            ",cinema_room.column_seat as columnSeat,cinema_room.status as status, cinema_room.seat_layout as seatLayout \n" +
-            "from cinema_room\n" +
+    @Query(value = "select cinema_room.id as id,cinema_room.name as name,cinema_room.row_seat as rowSeat,cinema_room.column_seat as columnSeat,cinema_room.status as status, cinema_room.seat_layout as seatLayout \n" +
+            "from `cinema_room`\n" +
             "where cinema_room.name like %?1%",nativeQuery = true)
-    Page<ListCinemaRoomDTO> findCinemaRoomByNameLike(String name,Pageable pageable);
+    Page<ListCinemaRoomDTO> searchByName(String name,Pageable pageable);
 }

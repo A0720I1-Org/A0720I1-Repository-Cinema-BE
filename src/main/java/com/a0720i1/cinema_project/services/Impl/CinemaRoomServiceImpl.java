@@ -23,8 +23,8 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     }
 
     @Override
-    public Page<ListCinemaRoomDTO> searchByName(String name, Pageable pageable) {
-        return cinemaRoomRepository.findCinemaRoomByNameLike(name.toUpperCase() ,pageable);
+    public Page<ListCinemaRoomDTO> searchByName(String name,Pageable pageable) {
+        return cinemaRoomRepository.searchByName(name,pageable);
     }
 
     @Override
