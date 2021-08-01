@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/paypal")
+@RequestMapping("/api/member/paypal")
 public class PayPalController {
 
     public static final String URL_PAYPAL_SUCCESS = "/pay/success";
@@ -35,12 +35,12 @@ public class PayPalController {
     public ResponseEntity<LinkDTO> pay(@RequestBody PaymentDTO paymentDTO, HttpServletRequest request) {
 
         String cancelUrl = "http://localhost:4200/book/booking-confirmation";
-        String successUrl = "http://localhost:4200/book/booking-information";
+        String successUrl = "http://localhost:4200/book/create-booking";
 
         try {
             Payment payment = paypalService.createPayment(
                     paymentDTO.getAmount(),
-                    "VND",
+                    "USD",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
                     "Payment by Paypal",
