@@ -27,4 +27,6 @@ public class Account {
     private List<AccountRole> accountRoleList;
 
 
+    public Account(String name, String password) {
+    }
 }
