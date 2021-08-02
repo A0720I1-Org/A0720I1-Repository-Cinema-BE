@@ -174,7 +174,7 @@ public class SecurityController {
         Membership membership = memberShipService.findByAccountId(account.getId());
         String email = membership.getEmail();
         String code = accountService.generateCode();
-//        accountService.sendEmailOTP(email,code);
+        accountService.sendEmailOTP(email,code);
         return ResponseEntity.ok(code);
     }
     @GetMapping("/api/public/reset-password/{username}")
