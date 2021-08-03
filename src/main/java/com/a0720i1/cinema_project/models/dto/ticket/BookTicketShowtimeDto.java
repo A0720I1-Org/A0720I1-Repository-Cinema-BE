@@ -20,4 +20,5 @@ public interface BookTicketShowtimeDto {
     LocalDate getShowtimeDay();
     LocalTime getShowtimeTime();
     Long getCinemaRoomId();
+    String getCinemaRoomName();
 }

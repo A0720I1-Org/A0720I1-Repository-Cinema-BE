@@ -15,9 +15,10 @@ public interface ShowTimeRepository extends JpaRepository<Showtime, Long> {
     //Don
     @Query(value = "SELECT film.id as filmId, film.name as filmName, film.category as filmCategory, film.duration as filmDuration,\n" +
             "film.directors as filmDirectors, film.actors as filmActors, film.age filmAge, film.imageurl as filmImageUrl,\n"+
-            "showtime.Id as showtimeId, showtime.cinema_room_id, showtime.day as showtimeDay, showtime.time as showtimeTime,\n"+
+            "showtime.Id as showtimeId, showtime.cinema_room_id as cinemaRoomId, cinema_room.name as cinemaRoomName, showtime.day as showtimeDay, showtime.time as showtimeTime,\n"+
             "showtime.film_technology as filmTechnology, showtime.sub_title as subtitle \n"+
             "FROM film RIGHT JOIN showtime ON film.id = showtime.film_id\n" +
+            "LEFT JOIN cinema_room on cinema_room.id = showtime.cinema_room_id "+
             " WHERE showtime.day >= CURDATE()  AND showtime.day <= NOW() + INTERVAL 7 DAY", nativeQuery=true)
     List<BookTicketShowtimeDto> getAllFilmShowingThisWeek();
 
@@ -36,7 +37,7 @@ public interface ShowTimeRepository extends JpaRepository<Showtime, Long> {
 
     @Query(value = "SELECT film.id as filmId, film.name as filmName, film.category as filmCategory, film.duration as filmDuration,\n" +
             "film.directors as filmDirectors, film.actors as filmActors, film.age filmAge, film.imageurl as filmImageUrl,\n"+
-            "showtime.Id as showtimeId, showtime.cinema_room_id, showtime.day as showtimeDay, showtime.time as showtimeTime,\n"+
+            "showtime.Id as showtimeId, showtime.cinema_room_id as cinemaRoomId, cinema_room.name as cinemaRoomName, showtime.day as showtimeDay, showtime.time as showtimeTime,\n"+
             "showtime.film_technology as filmTechnology, showtime.sub_title as subtitle \n"+
             "FROM ticket left join seat on ticket.id = seat.ticket_id " +
             "LEFT JOIN showtime on seat.showtime_id = showtime.id " +

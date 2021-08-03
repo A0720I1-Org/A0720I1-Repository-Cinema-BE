@@ -1,10 +1,8 @@
 package com.a0720i1.cinema_project.controllers;
 
 import com.a0720i1.cinema_project.models.dto.ticket.*;
-import com.a0720i1.cinema_project.services.InvoiceService;
-import com.a0720i1.cinema_project.services.SeatService;
-import com.a0720i1.cinema_project.services.ShowTimeService;
-import com.a0720i1.cinema_project.services.TicketService;
+import com.a0720i1.cinema_project.models.entity.Membership;
+import com.a0720i1.cinema_project.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +24,8 @@ public class InvoiceController {
     SeatService seatService;
     @Autowired
     ShowTimeService showTimeService;
+    @Autowired
+    MemberShipService memberShipService;
 
     @PostMapping("/api/member/invoice/create-invoice")
     @Transactional
@@ -38,6 +38,8 @@ public class InvoiceController {
                long ticketId = ticketService.createTicket(invoiceId);
                seatService.updateTicketIdBySeatId(ticketId, seatId);
            }
+           Membership membership = memberShipService.findById(bookingInformation.getMemberId());
+           invoiceService.sendEmail(membership.getEmail(), invoiceId, showTimeService.getShowtimeByInvoiceId(invoiceId), ticketService.getAllTicketByInvoiceId(invoiceId));
            invoice.put("id", invoiceId);
            return new ResponseEntity<>(invoice,HttpStatus.CREATED);
        } catch (Exception e) {

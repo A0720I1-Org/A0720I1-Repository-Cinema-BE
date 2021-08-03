@@ -33,7 +33,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     public Membership findById(long id) {
-        return null;
+        return memberShipRepository.findById(id).orElse(null);
     }
 
     @Override
