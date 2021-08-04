@@ -1,5 +1,4 @@
 package com.a0720i1.cinema_project.models.dto.ticket;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
