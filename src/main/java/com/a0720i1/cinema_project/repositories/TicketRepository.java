@@ -21,7 +21,7 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
             "left join ticket_price on seat.ticket_price_id = ticket_price.id\n" +
             "left join showtime on seat.showtime_id = showtime.id\n" +
             "left join film on showtime.film_id = film.id\n" +
-            "having membership.id=?1\n" +
+            "where membership.id=?1\n" +
             "group by invoice.id",nativeQuery = true)
     Page<TicketDTO> findTicketByMembership(Pageable pageable, Long id);
     @Query(value = "select invoice.id as invoiceId,membership.member_code as memberCode,membership.name as memberName,membership.card as memberCard,membership.phone as memberPhone, film.name as filmName,showtime.day,showtime.time,ticket.printed from `ticket`\n" +
@@ -40,7 +40,8 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
             "left join ticket_price on seat.ticket_price_id = ticket_price.id\n" +
             "left join showtime on seat.showtime_id = showtime.id\n" +
             "left join film on showtime.film_id = film.id\n" +
-            "where concat(membership.member_code,film.name,membership.phone,membership.name,'') like %?1% \n" +
+//            "where concat(membership.member_code,film.name,membership.phone,membership.name,'') like %?1% \n" +
+            "where membership.phone like %?1% \n" +
             "group by invoice.id",nativeQuery = true)
     Page<TicketMemberDTO> findAllTicketBySearch(String key,Pageable pageable);
     @Transactional
