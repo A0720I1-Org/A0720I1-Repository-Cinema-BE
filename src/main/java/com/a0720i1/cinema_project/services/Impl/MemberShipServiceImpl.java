@@ -33,7 +33,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     public Membership findById(long id) {
-        return memberShipRepository.findById(id).orElse(null);
+        return memberShipRepository.findById(id);
     }
 
     @Override
@@ -44,16 +44,30 @@ public class MemberShipServiceImpl implements MemberShipService {
     @Override
     public void createMembership(AccountMemberDTO membership) {
         Account account = accountRepository.findAccountByUsername(membership.getUsername());
-        memberShipRepository.createMembership(membership.getMemberCode(),membership.getName(),
-                membership.getCard(),membership.getPhone(),membership.getEmail(),membership.getBirthday(),
-                membership.getGender(),membership.getImageURL(),membership.getWardId(),account.getId());
+        memberShipRepository.createMembership(
+                membership.getMemberCode()
+                ,membership.getName().replaceAll("\\s{2,}", " ").trim()
+                ,membership.getCard()
+                ,membership.getPhone()
+                ,membership.getEmail()
+                ,membership.getBirthday()
+                ,membership.getGender()
+                ,membership.getImageURL()
+                ,membership.getWardId()
+                ,account.getId());
     }
 
     @Override
     public void updateMembership(MembershipUpdateDTO membership) {
-        memberShipRepository.updateMembership(membership.getName(),membership.getCard(),membership.getPhone()
-                ,membership.getEmail(),membership.getBirthday(),membership.getGender(),membership.getImageURL(),
-                membership.getWardId(),membership.getId());
+        memberShipRepository.updateMembership(membership.getName()
+                ,membership.getCard().replaceAll("\\s{2,}", " ").trim()
+                ,membership.getPhone()
+                ,membership.getEmail()
+                ,membership.getBirthday()
+                ,membership.getGender()
+                ,membership.getImageURL()
+                ,membership.getWardId()
+                ,membership.getId());
     }
 
     @Override

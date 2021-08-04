@@ -56,8 +56,8 @@ public class InvoiceController {
     }
 
     @GetMapping("/api/member/ticket/get-ticket-by-invoice-id")
-    public ResponseEntity<List<TicketDTO>> getTicketListByInvoiceId(@RequestParam long invoiceId) {
-        List<TicketDTO> ticketList = this.ticketService.getAllTicketByInvoiceId(invoiceId);
+    public ResponseEntity<List<BookingTicketDTO>> getTicketListByInvoiceId(@RequestParam long invoiceId) {
+        List<BookingTicketDTO> ticketList = this.ticketService.getAllTicketByInvoiceId(invoiceId);
         if (ticketList == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

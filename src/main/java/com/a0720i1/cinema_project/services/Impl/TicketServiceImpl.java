@@ -8,9 +8,12 @@ import com.a0720i1.cinema_project.repositories.InvoiceRepository;
 import com.a0720i1.cinema_project.repositories.TicketRepository;
 import com.a0720i1.cinema_project.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -30,7 +33,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<TicketDTO> getAllTicketByInvoiceId(long invoiceId) {
+    public List<BookingTicketDTO> getAllTicketByInvoiceId(long invoiceId) {
         return ticketRepository.getAllTicketByInvoiceId(invoiceId);
+    }
+
+    @Override
+    public Page<TicketDTO> findTicketOfMembership(Pageable pageable, Long memberId) {
+        return ticketRepository.findTicketByMembership(pageable,memberId);
+
     }
 }

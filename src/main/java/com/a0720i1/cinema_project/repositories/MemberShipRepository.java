@@ -15,11 +15,18 @@ public interface MemberShipRepository extends JpaRepository<Membership, Long> {
     //    PhatDT
     Membership findByAccountId(long accountId);
 
+    @Query(value = "select * from `membership` where card =?1 limit 1",
+            nativeQuery = true)
     Membership findByCard(String card);
-
+    @Query(value = "select * from `membership` where email =?1 limit 1",
+            nativeQuery = true)
     Membership findByEmail(String email);
-
+    @Query(value = "select * from `membership` where phone =?1 limit 1",
+            nativeQuery = true)
     Membership findByPhone(String phone);
+    @Query(value = "select * from `membership` where id =?1 limit 1",
+            nativeQuery = true)
+    Membership findById(long id);
 
     @Transactional
     @Modifying

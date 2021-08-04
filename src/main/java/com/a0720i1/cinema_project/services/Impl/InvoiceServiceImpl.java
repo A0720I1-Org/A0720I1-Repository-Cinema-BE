@@ -6,7 +6,6 @@ import com.a0720i1.cinema_project.repositories.InvoiceRepository;
 import com.a0720i1.cinema_project.repositories.MemberShipRepository;
 import com.a0720i1.cinema_project.repositories.PaymentMethodRepository;
 import com.a0720i1.cinema_project.services.InvoiceService;
-import org.apache.http.util.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -44,11 +43,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void sendEmail(String email, long invoiceId, BookTicketShowtimeDto showtime, List<TicketDTO> ticketList) {
+    public void sendEmail(String email, long invoiceId, BookTicketShowtimeDto showtime, List<BookingTicketDTO> ticketList) {
         StringBuilder stringBuilder = new StringBuilder();
         ArrayList<String> seatNameList = new ArrayList<>();
         int amount = 0;
-        for (TicketDTO ticket: ticketList){
+        for (BookingTicketDTO ticket: ticketList){
             seatNameList.add(ticket.getSeatName());
             amount += ticket.getPrice();
         }

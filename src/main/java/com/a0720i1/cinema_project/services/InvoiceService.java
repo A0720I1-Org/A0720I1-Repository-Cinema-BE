@@ -9,5 +9,5 @@ import java.util.List;
 public interface InvoiceService {
     long createInvoice(long membershipId, long paymentMethodId);
     BookingInvoiceDTO getInvoiceByInvoiceId(long invoiceId);
-    void sendEmail(String email, long invoiceId, BookTicketShowtimeDto showtime, List<TicketDTO> ticketList);
+    void sendEmail(String email, long invoiceId, BookTicketShowtimeDto showtime, List<BookingTicketDTO> ticketList);
 }
