@@ -30,7 +30,6 @@ public class Membership {
     @ManyToOne
     @JoinColumn(name = "ward_id", referencedColumnName = "id")
     private Ward ward;
-    @JsonBackReference
     @OneToOne
     private Account account;
 
