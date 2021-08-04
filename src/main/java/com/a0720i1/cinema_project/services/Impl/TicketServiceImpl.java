@@ -1,6 +1,7 @@
 package com.a0720i1.cinema_project.services.Impl;
 
 import com.a0720i1.cinema_project.models.dto.ticket.TicketDTO;
+import com.a0720i1.cinema_project.models.dto.ticket.TicketMemberDTO;
 import com.a0720i1.cinema_project.repositories.TicketRepository;
 import com.a0720i1.cinema_project.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,5 +16,20 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Page<TicketDTO> findTicketOfMembership(Pageable pageable, Long memberId) {
         return ticketRepository.findTicketByMembership(pageable,memberId);
+    }
+
+    @Override
+    public Page<TicketMemberDTO> findAllTicket(Pageable pageable) {
+        return ticketRepository.findAllTicket(pageable);
+    }
+
+    @Override
+    public void updatePrintedTicket(Long invoiceId) {
+        ticketRepository.updateTicketPrinted(invoiceId);
+    }
+
+    @Override
+    public Page<TicketMemberDTO> findAllTicketBySearch(String key, Pageable pageable) {
+        return ticketRepository.findAllTicketBySearch(key,pageable);
     }
 }

@@ -32,7 +32,7 @@ public class MemberShipController {
     AccountServiceImpl accountService;
     @Autowired
     TicketService ticketService;
-    @GetMapping("/api/member/ward")
+    @GetMapping("/api/public/address/ward")
     public ResponseEntity<List<Ward>> findWardByDistrictId(@RequestParam(value = "districtId",required = false) Integer districtId) {
         if(districtId == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,14 +40,14 @@ public class MemberShipController {
         return ResponseEntity.ok(wardService.findAllByDistrictId(districtId));
 
     }
-    @GetMapping("/api/member/district")
+    @GetMapping("/api/public/address/district")
     public ResponseEntity<List<District>> findDistrictByDistrictId(@RequestParam(value = "provinceId",required = false) Integer provinceId) {
         if(provinceId == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(districtService.findAllByProvinceId(provinceId));
     }
-    @GetMapping("/api/member/province")
+    @GetMapping("/api/public/address/province")
     public ResponseEntity<List<Province>> findProvince() {
         return ResponseEntity.ok(provinceService.findAll());
     }
