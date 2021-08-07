@@ -67,9 +67,9 @@ public class SecurityController {
         } catch (Exception e
         ) {
             if (accountService.findByUsername(loginRequest.getUsername()) != null) {
-                throw new BadCredentialsException("Mật khẩu không chính xác", e);
+                throw new BadCredentialsException("Tên đăng nhập hoặc mật khẩu không chính xác!", e);
             } else {
-                throw new UsernameNotFoundException("Tên đăng nhập không tồn tại", e);
+                throw new UsernameNotFoundException("Tên đăng nhập không tồn tại!", e);
             }
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -221,8 +221,8 @@ public class SecurityController {
         if(!accountService.checkChangePassword(account,accountDTO)){
             listError.put("failPassword", "Mật khẩu cũ sai");
         }
-        if(!accountService.checkChangePassword(account,accountDTO)){
-            listError.put("equalPassword", "Mật khẩu mới trùng với mật khẩu cũ nên bạn không cần thay đổi");
+        if(accountService.checkNewPwEqualOldPw(account,accountDTO)){
+            listError.put("equalPassword", "Mật khẩu mới trùng với mật khẩu cũ nên bạn không cần thay đổi!");
         }
         if (!listError.isEmpty()) {
             return ResponseEntity
