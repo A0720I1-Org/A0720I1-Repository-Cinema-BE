@@ -25,7 +25,7 @@ public class ShowTimeController {
     @Autowired
     PaymentMethodService paymentMethodService;
 
-    @GetMapping("/api/member/showtime/get-showtime-showing")
+    @GetMapping("/api/public/showtime/get-showtime-showing")
     public ResponseEntity<?> getAllFilmShowingThisWeek(){
         List<BookTicketShowtimeDto> showtimeList = showTimeService.getAllFilmShowingThisWeek();
         if (showtimeList.isEmpty()){
@@ -34,7 +34,7 @@ public class ShowTimeController {
         return new ResponseEntity<>(showtimeList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/member/showtime/get-seat-of-showtime")
+    @GetMapping("/api/public/showtime/get-seat-of-showtime")
     public ResponseEntity<List<BookingSeatDTO>> getAllSeatByShowtimeId(@RequestParam long showtimeId){
         List<BookingSeatDTO> seatList = this.showTimeService.getAllSeatByShowtimeId(showtimeId);
         if (seatList.isEmpty()){
@@ -43,7 +43,7 @@ public class ShowTimeController {
         return new ResponseEntity<>(seatList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/member/showtime/get-cinema-room-layout")
+    @GetMapping("/api/public/showtime/get-cinema-room-layout")
     public ResponseEntity<CinemaRoomLayout> getCinemaRoomLayoutByShowtimeId(@RequestParam long showtimeId){
         CinemaRoomLayout layout = this.showTimeService.getCinemaRoomLayoutByShowtimeId(showtimeId);
         if (layout == null){
@@ -51,7 +51,7 @@ public class ShowTimeController {
         }
         return new ResponseEntity<>(layout, HttpStatus.OK);
     }
-    @GetMapping("/api/member/showtime/get-payment-method-list")
+    @GetMapping("/api/public/showtime/get-payment-method-list")
     public ResponseEntity<List<PaymentMethod>> getPaymentMethodList(){
         List<PaymentMethod> methodList = paymentMethodService.getAllPaymentMethod();
         if (methodList.isEmpty()){
