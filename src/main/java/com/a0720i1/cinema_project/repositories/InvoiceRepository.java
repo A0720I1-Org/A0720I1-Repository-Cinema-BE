@@ -15,5 +15,5 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             "from invoice left join membership on invoice.membership_id = membership.id " +
             "left join payment_method on payment_method.id = invoice.payment_method_id " +
             "where invoice.id = ?1 limit 1", nativeQuery = true)
-    BookingInvoiceDTO getInvoiceByInvoiceId(long invoiceId);
+    BookingInvoiceDTO getInvoiceByInvoiceId(Long invoiceId);
 }
