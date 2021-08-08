@@ -1,5 +1,8 @@
 package com.a0720i1.cinema_project.controllers;
+
+import com.a0720i1.cinema_project.common.SeatNotAvailableException;
 import com.a0720i1.cinema_project.models.dto.ticket.*;
+import com.a0720i1.cinema_project.models.entity.Invoice;
 import com.a0720i1.cinema_project.models.entity.Membership;
 import com.a0720i1.cinema_project.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,20 +31,29 @@ public class InvoiceController {
     @Autowired
     MemberShipService memberShipService;
 
+    @PostMapping("/api/member/invoice/check-seat-available")
+    public ResponseEntity<?> checkSeatAvailable(@RequestBody BookingInformation bookingInformation) throws SeatNotAvailableException {
+        for (long seatId : bookingInformation.getSeatIdList()) {
+            if (seatService.findById(seatId).getTicket() != null) {
+                throw new SeatNotAvailableException("Ghế bạn chọn đã được đặt bởi người dùng khác");
+            }
+        };
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/api/member/invoice/create-invoice")
     @Transactional
     public ResponseEntity<?> createInvoice(@RequestBody BookingInformation bookingInformation) {
        try {
            Map<String, Long> invoice = new HashMap<>();
-           long invoiceId = invoiceService.createInvoice(bookingInformation.getMemberId(), bookingInformation.getPaymentMethodId());
-           System.out.println(invoiceId);
+           Invoice createdInvoice = invoiceService.createInvoice(bookingInformation.getMemberId(), bookingInformation.getPaymentMethodId(), invoiceService.generateCode());
            for (long seatId : bookingInformation.getSeatIdList()) {
-               long ticketId = ticketService.createTicket(invoiceId);
+               long ticketId = ticketService.createTicket(createdInvoice.getId());
                seatService.updateTicketIdBySeatId(ticketId, seatId);
            }
            Membership membership = memberShipService.findById(bookingInformation.getMemberId());
-           invoiceService.sendEmail(membership.getEmail(), invoiceId, showTimeService.getShowtimeByInvoiceId(invoiceId), ticketService.getAllTicketByInvoiceId(invoiceId));
-           invoice.put("id", invoiceId);
+           invoiceService.sendEmail(membership.getEmail(), createdInvoice.getCode(), showTimeService.getShowtimeByInvoiceId(createdInvoice.getId()), ticketService.getAllTicketByInvoiceId(createdInvoice.getId()));
+           invoice.put("id", createdInvoice.getId());
            return new ResponseEntity<>(invoice,HttpStatus.CREATED);
        } catch (Exception e) {
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

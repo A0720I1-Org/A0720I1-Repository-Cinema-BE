@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface BookingInvoiceDTO {
     long getId();
+    String getCode();
     long getMemberId();
     String getMemberCode();
     String getMemberName();
