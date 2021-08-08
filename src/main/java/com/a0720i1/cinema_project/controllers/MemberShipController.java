@@ -1,8 +1,15 @@
 package com.a0720i1.cinema_project.controllers;
+
 import com.a0720i1.cinema_project.models.dto.membership.MembershipUpdateDTO;
 import com.a0720i1.cinema_project.models.dto.ticket.TicketDTO;
-import com.a0720i1.cinema_project.models.entity.*;
-import com.a0720i1.cinema_project.services.Impl.*;
+import com.a0720i1.cinema_project.models.entity.District;
+import com.a0720i1.cinema_project.models.entity.Membership;
+import com.a0720i1.cinema_project.models.entity.Province;
+import com.a0720i1.cinema_project.models.entity.Ward;
+import com.a0720i1.cinema_project.services.Impl.AccountServiceImpl;
+import com.a0720i1.cinema_project.services.Impl.DistrictServiceImpl;
+import com.a0720i1.cinema_project.services.Impl.ProvinceServiceImpl;
+import com.a0720i1.cinema_project.services.Impl.WardServiceImpl;
 import com.a0720i1.cinema_project.services.MemberShipService;
 import com.a0720i1.cinema_project.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;

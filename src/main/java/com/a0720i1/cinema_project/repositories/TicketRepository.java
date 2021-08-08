@@ -21,7 +21,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             "ticket_price.seat_code as seatCode, ticket_price.seat_type as seatType, ticket_price.price as price " +
             "from ticket left join seat on ticket.id = seat.ticket_id " +
             "left join ticket_price on seat.ticket_price_id =  ticket_price.id where ticket.invoice_id = ?1", nativeQuery = true)
-    List<BookingTicketDTO> getAllTicketByInvoiceId(long invoiceId);
+    List<BookingTicketDTO> getAllTicketByInvoiceId(Long invoiceId);
 
     @Query(value = "select invoice.id as invoiceId,ticket.id as ticketId,showtime.day as date,showtime.time as time,sum(ticket_price.price) as price,film.name as filmName,ticket.printed as status,group_concat(seat.name) as seatName from `ticket`\n" +
             "left join invoice on ticket.invoice_id = invoice.id\n" +

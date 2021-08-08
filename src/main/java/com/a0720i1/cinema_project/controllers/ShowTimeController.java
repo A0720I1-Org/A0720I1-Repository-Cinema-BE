@@ -9,31 +9,26 @@ import com.a0720i1.cinema_project.services.ShowTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 public class ShowTimeController {
     @Autowired
     ShowTimeService showTimeService;
 
     @Autowired
     PaymentMethodService paymentMethodService;
-
-    @GetMapping("/api/public/showtime/get-showtime-showing")
+    @GetMapping(value = "/api/public/showtime/get-showtime-showing")
     public ResponseEntity<?> getAllFilmShowingThisWeek(){
         List<BookTicketShowtimeDto> showtimeList = showTimeService.getAllFilmShowingThisWeek();
         if (showtimeList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(showtimeList, HttpStatus.OK);
+        return new ResponseEntity<>(showtimeList,HttpStatus.OK);
     }
-
     @GetMapping("/api/public/showtime/get-seat-of-showtime")
     public ResponseEntity<List<BookingSeatDTO>> getAllSeatByShowtimeId(@RequestParam long showtimeId){
         List<BookingSeatDTO> seatList = this.showTimeService.getAllSeatByShowtimeId(showtimeId);
