@@ -30,4 +30,10 @@ public class CinemaProjectApplication {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> admin
 }
+

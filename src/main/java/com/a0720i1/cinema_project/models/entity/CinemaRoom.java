@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
 import java.util.List;
 
 @Entity
@@ -17,6 +18,7 @@ public class CinemaRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
 
     private String name;
     private int rowSeat;
