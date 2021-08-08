@@ -1,9 +1,11 @@
 package com.a0720i1.cinema_project.controllers;
-
 import com.a0720i1.cinema_project.models.dto.ticket.*;
 import com.a0720i1.cinema_project.models.entity.Membership;
 import com.a0720i1.cinema_project.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 public class InvoiceController {
     @Autowired
     InvoiceService invoiceService;
@@ -62,5 +63,26 @@ public class InvoiceController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(ticketList, HttpStatus.OK);
+    }
+    @GetMapping("/api/public/invoice")
+    public ResponseEntity<Page<TicketMemberDTO>> getAllTicket(@PageableDefault(value = 5) Pageable pageable) {
+        Page<TicketMemberDTO> tickets = ticketService.findAllTicket(pageable);
+        if (tickets.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(tickets,HttpStatus.OK);
+    }
+    @GetMapping("/api/public/invoice/{key}")
+    public ResponseEntity<Page<TicketMemberDTO>> getAllTicketBySearch(@PathVariable("key") String key,@PageableDefault(value = 5) Pageable pageable) {
+        Page<TicketMemberDTO> tickets = ticketService.findAllTicketBySearch(key,pageable);
+        if (tickets.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(tickets,HttpStatus.OK);
+    }
+    @PutMapping("/api/public/invoice/{id}")
+    public ResponseEntity<?> updateTicketPrinted(@PathVariable("id") Long invoiceId) {
+        ticketService.updatePrintedTicket(invoiceId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
