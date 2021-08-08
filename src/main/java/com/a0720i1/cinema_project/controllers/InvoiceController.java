@@ -31,7 +31,7 @@ public class InvoiceController {
     @Autowired
     MemberShipService memberShipService;
 
-    @PostMapping("/api/member/invoice/check-seat-available")
+    @PostMapping("/api/public/invoice/check-seat-available")
     public ResponseEntity<?> checkSeatAvailable(@RequestBody BookingInformation bookingInformation) throws SeatNotAvailableException {
         for (long seatId : bookingInformation.getSeatIdList()) {
             if (seatService.findById(seatId).getTicket() != null) {
