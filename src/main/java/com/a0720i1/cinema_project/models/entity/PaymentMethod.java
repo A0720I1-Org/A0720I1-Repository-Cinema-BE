@@ -19,6 +19,7 @@ public class PaymentMethod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    private String iconUrl;
 
     @JsonBackReference
     @OneToMany(mappedBy = "paymentMethod")
