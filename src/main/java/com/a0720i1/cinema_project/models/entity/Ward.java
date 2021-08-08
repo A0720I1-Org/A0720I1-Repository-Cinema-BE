@@ -17,7 +17,6 @@ public class Ward {
     private Integer id;
     private String name;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "district_id", referencedColumnName = "id")
     private District district;

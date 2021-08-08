@@ -1,6 +1,10 @@
 package com.a0720i1.cinema_project.controllers;
 
-import com.a0720i1.cinema_project.dto.film.FilmDTO;
+import com.a0720i1.cinema_project.models.dto.film.FilmDTO;
+import com.a0720i1.cinema_project.models.dto.film.FilmDetailDTO;
+import com.a0720i1.cinema_project.models.dto.film.FilmTopDTO;
+import com.a0720i1.cinema_project.models.dto.film.TicketPriceDTO;
+import com.a0720i1.cinema_project.models.entity.Film;
 import com.a0720i1.cinema_project.services.Impl.FilmServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +36,20 @@ public class FilmController {
     @GetMapping("/api/public/film/showing")
     public List<FilmDTO> searchUpShowingFilmDTO(@RequestParam String name) {
         return this.filmService.searchUpShowingFilmDTO(name);
+    }
+
+    @GetMapping("/api/public/film/film")
+    public FilmDetailDTO getFilmById(@RequestParam long id) {
+        return this.filmService.getFilmById(id);
+    }
+
+    @GetMapping("/api/public/ticket-price/list-ticket-price")
+    public List<TicketPriceDTO> listTicketPrice() {
+        return this.filmService.listTicketPrice();
+    }
+
+    @GetMapping("/api/public/film/top-film")
+    public List<FilmTopDTO> getTopFilm() {
+        return this.filmService.getTopFilm();
     }
 }
