@@ -4,7 +4,6 @@ import com.a0720i1.cinema_project.models.dto.film.FilmDTO;
 import com.a0720i1.cinema_project.models.dto.film.FilmDetailDTO;
 import com.a0720i1.cinema_project.models.dto.film.FilmTopDTO;
 import com.a0720i1.cinema_project.models.dto.film.TicketPriceDTO;
-import com.a0720i1.cinema_project.models.entity.Film;
 import com.a0720i1.cinema_project.repositories.FilmRepository;
 import com.a0720i1.cinema_project.services.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,3 +62,6 @@ public class FilmServiceImpl implements FilmService {
         return newListFilm;
     }
 }
+
+
+

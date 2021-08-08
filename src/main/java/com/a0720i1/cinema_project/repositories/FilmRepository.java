@@ -44,3 +44,4 @@ public interface FilmRepository extends JpaRepository<Film, Long> {
     @Query(value = "select id, name, age, imageurl, trailer from film", nativeQuery = true)
     List<FilmTopDTO> getTopFilm();
 }
+
