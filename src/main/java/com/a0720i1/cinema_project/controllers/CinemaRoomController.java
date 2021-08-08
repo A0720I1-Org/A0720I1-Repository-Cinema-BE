@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CinemaRoomController {
+<<<<<<< HEAD
+=======
     @Autowired
     private CinemaRoomServiceImpl cinemaRoomService;
 
@@ -49,5 +51,6 @@ public class CinemaRoomController {
             return new ResponseEntity<>(cinemaRoomById, HttpStatus.OK);
         }
     }
+>>>>>>> admin
 
 }
