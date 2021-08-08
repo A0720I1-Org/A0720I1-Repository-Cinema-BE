@@ -18,7 +18,7 @@ public class District {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "province_id", referencedColumnName = "id")
     private Province province;
