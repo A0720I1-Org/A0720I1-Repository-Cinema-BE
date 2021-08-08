@@ -15,7 +15,6 @@ public class CinemaProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(CinemaProjectApplication.class, args);
     }
-
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -31,5 +30,7 @@ public class CinemaProjectApplication {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
+
+
 }
 

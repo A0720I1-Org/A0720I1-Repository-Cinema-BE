@@ -9,11 +9,31 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+//anh don
+import com.a0720i1.cinema_project.models.dto.ticket.BookTicketShowtimeDto;
+import com.a0720i1.cinema_project.models.dto.ticket.CinemaRoomLayout;
+import com.a0720i1.cinema_project.models.dto.ticket.BookingSeatDTO;
+
+
 public interface ShowTimeService {
-//    ListShowTimeDTO getShowtimeById(long id);
     void createShowtimeDTO(CreateShowtimeDTO createShowtimeDTO);
+
     List<Film> findAllFilm();
+
     List<CinemaRoom> findAllCinemaRoom();
+
     Long getMaxByIdShowtime();
+
     Showtime getShowtimeById(long id);
+
+    List<BookTicketShowtimeDto> getAllFilmShowingThisWeek();
+
+    List<BookingSeatDTO> getAllSeatByShowtimeId(long showtimeId);
+
+    CinemaRoomLayout getCinemaRoomLayoutByShowtimeId(long showtimeId);
+
+    BookTicketShowtimeDto getShowtimeByInvoiceId(long invoiceId);
 }
+
+
+
