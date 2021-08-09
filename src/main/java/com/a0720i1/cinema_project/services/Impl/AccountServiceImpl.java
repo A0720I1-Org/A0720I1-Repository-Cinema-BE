@@ -1,13 +1,6 @@
 package com.a0720i1.cinema_project.services.Impl;
 
-<<<<<<< HEAD
 
-import com.a0720i1.cinema_project.repositories.AccountRepository;
-import com.a0720i1.cinema_project.services.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-=======
 import com.a0720i1.cinema_project.models.dto.account.AccountDTO;
 import com.a0720i1.cinema_project.models.entity.Account;
 import com.a0720i1.cinema_project.repositories.AccountRepository;
@@ -20,13 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
->>>>>>> admin
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountRepository accountRepository;
-<<<<<<< HEAD
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JavaMailSender emailSender;
 
     @Override
     public void createAccount(int isEnable, String password, String username) {
@@ -36,11 +30,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Long getIdAccountByUsername(String username) {
         return accountRepository.getIdAccountByUsername(username);
-=======
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JavaMailSender emailSender;
+    }
+
     @Override
     public Account findByUsername(String username) {
         return accountRepository.findAccountByUsername(username);
@@ -95,6 +86,5 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void changePasswordByForgot(String password, Account account) {
         accountRepository.changePassword(passwordEncoder.encode("12345678"),account.getUsername());
->>>>>>> admin
     }
 }

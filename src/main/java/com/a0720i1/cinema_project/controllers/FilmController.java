@@ -27,7 +27,7 @@ public class FilmController {
     @Autowired
     private FilmCreateValidator filmCreateValidator;
 
-    @GetMapping("/admin/film/list")
+    @GetMapping("/api/admin/film/list")
     public ResponseEntity<Page<ListFilmDTO>> getListFilm(@PageableDefault(size = 8) Pageable pageable) {
         Page<ListFilmDTO> listFilmDTOS = this.filmService.getListFilm(pageable);
         if (listFilmDTOS.isEmpty()) {
@@ -36,7 +36,7 @@ public class FilmController {
         return new ResponseEntity<>(listFilmDTOS, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/film/find/{id}")
+    @GetMapping("/api/admin/film/find/{id}")
     public ResponseEntity<FilmViewDTO> getFilmById(@PathVariable long id) {
         FilmViewDTO filmViewDTO = this.filmService.getFilmById(id);
         if (filmViewDTO == null) {
@@ -45,13 +45,13 @@ public class FilmController {
         return new ResponseEntity<>(filmViewDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/admin/film/update")
+    @PutMapping("/api/admin/film/update")
     public ResponseEntity<UpdateFilmDTO> updateFilm(@RequestBody UpdateFilmDTO filmUpdateDTO) {
         this.filmService.updateFilm(filmUpdateDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/admin/film/create")
+    @PostMapping("/api/admin/film/create")
     @Transactional
     public ResponseEntity<?> createFilm(@Valid @RequestBody CreateFilmDTO createFilmDTO, BindingResult bindingResult) throws MethodArgumentNotValidException {
         filmCreateValidator.validate(createFilmDTO, bindingResult);
@@ -62,7 +62,7 @@ public class FilmController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/admin/film/search")
+    @GetMapping("/api/admin/film/search")
     public ResponseEntity<Page<ListFilmDTO>> getListSearchByName(@PageableDefault(size = 8) Pageable pageable,
                                                                  @RequestParam String name) {
         Page<ListFilmDTO> listSearchFilm = filmService.searchByName(name, pageable);

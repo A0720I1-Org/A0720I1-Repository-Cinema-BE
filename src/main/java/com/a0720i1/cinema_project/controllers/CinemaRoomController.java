@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CinemaRoomController {
-<<<<<<< HEAD
-=======
     @Autowired
     private CinemaRoomServiceImpl cinemaRoomService;
 
     @GetMapping("/api/admin/cinema-room/list")
-    public ResponseEntity<Page<ListCinemaRoomDTO>> getAllListCinemaRoom(@PageableDefault(size = 4)Pageable pageable) {
+    public ResponseEntity<Page<ListCinemaRoomDTO>> getAllListCinemaRoom(@PageableDefault(size = 7)Pageable pageable) {
         Page<ListCinemaRoomDTO> listCinemaRoomDTOS = cinemaRoomService.listCinemaRoom(pageable);
         if (listCinemaRoomDTOS.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -31,7 +29,7 @@ public class CinemaRoomController {
         }
     }
     @GetMapping("/api/admin/cinema-room/search")
-    public ResponseEntity<Page<ListCinemaRoomDTO>> getListSearchByName(@PageableDefault(size = 4) Pageable pageable,
+    public ResponseEntity<Page<ListCinemaRoomDTO>> getListSearchByName(@PageableDefault(size = 7) Pageable pageable,
                                                                         @RequestParam String name) {
         Page<ListCinemaRoomDTO> listSearchCinemaRoom = cinemaRoomService.searchByName(name,pageable);
 
@@ -51,6 +49,5 @@ public class CinemaRoomController {
             return new ResponseEntity<>(cinemaRoomById, HttpStatus.OK);
         }
     }
->>>>>>> admin
 
 }
