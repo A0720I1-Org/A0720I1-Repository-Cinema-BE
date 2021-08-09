@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface BookingInvoiceDTO {
-    long getId();
-    long getMemberId();
+    Long getId();
+    String getCode();
+    Long getMemberId();
     String getMemberCode();
     String getMemberName();
     String getMemberEmail();

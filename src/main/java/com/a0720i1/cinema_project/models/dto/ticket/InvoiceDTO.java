@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class InvoiceDTO {
-    private long id;
-    private long memberId;
+    private Long id;
+    private Long memberId;
     private String memberCode;
     private String memberName;
     private String memberEmail;

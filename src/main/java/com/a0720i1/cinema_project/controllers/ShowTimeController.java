@@ -20,6 +20,10 @@ import com.a0720i1.cinema_project.models.dto.ticket.BookingSeatDTO;
 import com.a0720i1.cinema_project.models.entity.PaymentMethod;
 import com.a0720i1.cinema_project.services.PaymentMethodService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import com.a0720i1.cinema_project.services.ShowTimeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,16 +41,15 @@ public class ShowTimeController {
     @Autowired
     TicketPriceService ticketPriceService;
 
-    @GetMapping("/api/member/showtime/get-showtime-showing")
+    @GetMapping(value = "/api/public/showtime/get-showtime-showing")
     public ResponseEntity<?> getAllFilmShowingThisWeek(){
         List<BookTicketShowtimeDto> showtimeList = showTimeService.getAllFilmShowingThisWeek();
         if (showtimeList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(showtimeList, HttpStatus.OK);
+        return new ResponseEntity<>(showtimeList,HttpStatus.OK);
     }
-
-    @GetMapping("/api/member/showtime/get-seat-of-showtime")
+    @GetMapping("/api/public/showtime/get-seat-of-showtime")
     public ResponseEntity<List<BookingSeatDTO>> getAllSeatByShowtimeId(@RequestParam long showtimeId){
         List<BookingSeatDTO> seatList = this.showTimeService.getAllSeatByShowtimeId(showtimeId);
         if (seatList.isEmpty()){
@@ -55,7 +58,7 @@ public class ShowTimeController {
         return new ResponseEntity<>(seatList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/member/showtime/get-cinema-room-layout")
+    @GetMapping("/api/public/showtime/get-cinema-room-layout")
     public ResponseEntity<CinemaRoomLayout> getCinemaRoomLayoutByShowtimeId(@RequestParam long showtimeId){
         CinemaRoomLayout layout = this.showTimeService.getCinemaRoomLayoutByShowtimeId(showtimeId);
         if (layout == null){
@@ -63,7 +66,7 @@ public class ShowTimeController {
         }
         return new ResponseEntity<>(layout, HttpStatus.OK);
     }
-    @GetMapping("/api/member/showtime/get-payment-method-list")
+    @GetMapping("/api/public/showtime/get-payment-method-list")
     public ResponseEntity<List<PaymentMethod>> getPaymentMethodList(){
         List<PaymentMethod> methodList = paymentMethodService.getAllPaymentMethod();
         if (methodList.isEmpty()){

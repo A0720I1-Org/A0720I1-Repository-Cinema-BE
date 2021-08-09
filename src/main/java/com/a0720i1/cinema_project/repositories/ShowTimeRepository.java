@@ -52,12 +52,12 @@ public interface ShowTimeRepository extends JpaRepository<Showtime, Long> {
             "left join ticket_price on seat.ticket_price_id = ticket_price.id\n" +
             "left join ticket on seat.ticket_id = ticket.id\n" +
             "where showtime.id = ?1", nativeQuery = true)
-    List<BookingSeatDTO> getAllSeatByShowtimeId(long showtimeId);
+    List<BookingSeatDTO> getAllSeatByShowtimeId(Long showtimeId);
 
     @Query(value = "SELECT cinema_room.id as cinemaRoomId, cinema_room.row_seat as rowSeat, cinema_room.column_seat as columnSeat, cinema_room.seat_layout as seatLayout from showtime \n" +
             "left join cinema_room on cinema_room.id = showtime.cinema_room_id\n" +
             "where showtime.id = ?1 limit 1", nativeQuery = true)
-    CinemaRoomLayout getCinemaRoomLayoutByShowtimeId(long showtimeId);
+    CinemaRoomLayout getCinemaRoomLayoutByShowtimeId(Long showtimeId);
 
     @Query(value = "SELECT film.id as filmId, film.name as filmName, film.category as filmCategory, film.duration as filmDuration,\n" +
             "film.directors as filmDirectors, film.actors as filmActors, film.age filmAge, film.imageurl as filmImageUrl,\n" +
@@ -73,5 +73,6 @@ public interface ShowTimeRepository extends JpaRepository<Showtime, Long> {
     @Modifying
     @Query(value = "insert into seat(name, showtime_id, ticket_price_id) values (?1, ?2, ?3)", nativeQuery = true)
     void createSeat(String name, long showtimeId, long ticketPriceId);
+
 }
 

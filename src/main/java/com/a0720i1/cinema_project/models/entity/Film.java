@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,7 +32,9 @@ public class Film {
     private int duration;
     private String directors;
     private String category;
+    @Lob
     private String description;
+    @Lob
     private String age;
     private String trailer;
 
