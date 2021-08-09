@@ -7,6 +7,7 @@ public interface AccountService {
     Account findByUsername(String username);
     void createAccount(String username, String password);
     boolean checkChangePassword(Account account,AccountDTO accountDTO);
+    boolean checkNewPwEqualOldPw(Account account,AccountDTO accountDTO);
     void changePassword(Account account,AccountDTO accountDTO);
     String generateCode();
     void sendEmailOTP(String email, String code);

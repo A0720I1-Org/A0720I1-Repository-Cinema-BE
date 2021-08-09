@@ -5,16 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 @Configuration
 public class MailConfig {
     private static final String MY_EMAIL = "a0720i1.cg.dn@gmail.com";
-
-
     private static final String MY_PASSWORD = "a0720i1cgdn";
-
-
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

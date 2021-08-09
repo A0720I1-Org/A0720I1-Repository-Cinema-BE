@@ -33,18 +33,22 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean checkChangePassword(Account account,AccountDTO accountDTO) {
         if (passwordEncoder.matches(accountDTO.getOldPassword(), account.getPassword())) {
-            if (!accountDTO.getOldPassword().equals(accountDTO.getNewPassword()) && accountDTO.getNewPassword().equals(accountDTO.getConfirmPassword())) {
                 return true;
-            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkNewPwEqualOldPw(Account account, AccountDTO accountDTO) {
+        if (passwordEncoder.matches(accountDTO.getNewPassword(), account.getPassword())) {
+            return true;
         }
         return false;
     }
 
     @Override
     public void changePassword(Account account,AccountDTO accountDTO) {
-        if (checkChangePassword(account,accountDTO)) {
-            accountRepository.changePassword(passwordEncoder.encode( accountDTO.getOldPassword() ), account.getUsername());
-        }
+            accountRepository.changePassword(passwordEncoder.encode(accountDTO.getNewPassword()), account.getUsername());
     }
 
     @Override

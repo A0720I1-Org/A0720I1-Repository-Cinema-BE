@@ -1,20 +1,17 @@
 package com.a0720i1.cinema_project.config;
+
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 @Component
 public class JwtTokenUtil implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
     private String jwtSecret ="secretkey";
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final int JWT_TOKEN_VALIDITY = 5 * 60 * 60;
     public String generateJwtToken(String username) {
         return Jwts.builder()
                 .setSubject(username)

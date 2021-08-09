@@ -16,6 +16,7 @@ import com.a0720i1.cinema_project.services.MemberShipService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 
 @RestController
 public class SecurityController {
-    final String googleClientId = "464151182023-kk3t1i54nkc4quc4ibp7rcuk05q5dn5v.apps.googleusercontent.com";
+    static final String googleClientId = "464151182023-kk3t1i54nkc4quc4ibp7rcuk05q5dn5v.apps.googleusercontent.com";
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -67,9 +67,9 @@ public class SecurityController {
         } catch (Exception e
         ) {
             if (accountService.findByUsername(loginRequest.getUsername()) != null) {
-                throw new BadCredentialsException("Mật khẩu không chính xác", e);
+                throw new BadCredentialsException("Tên đăng nhập hoặc mật khẩu không chính xác!", e);
             } else {
-                throw new UsernameNotFoundException("Tên đăng nhập không tồn tại", e);
+                throw new UsernameNotFoundException("Tên đăng nhập không tồn tại!", e);
             }
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -122,30 +122,32 @@ public class SecurityController {
     @PostMapping("/api/public/oauth/facebook")
     public ResponseEntity<?> loginFacebook(@RequestBody SocialResponse jwtResponseSocial) {
         Facebook facebook = new FacebookTemplate(jwtResponseSocial.getToken());
-
         final String[] fields = {"email", "name"};
         org.springframework.social.facebook.api.User user = facebook
                 .fetchObject("me", org.springframework.social.facebook.api.User.class, fields);
+        Membership membership = memberShipService.findByEmail(user.getEmail());
+        Account account = new Account();
         JwtResponse jwtResponse = new JwtResponse();
-        Membership membership;
-        Account account;
-        if (memberShipService.findByEmail(user.getEmail()) == null) {
+        if (membership == null) {
             membership = new Membership();
-            account = new Account();
             account.setUsername(user.getEmail());
-            account.setPassword("");
+            account.setPassword(passwordEncoder.encode(""));
             accountService.createAccount(account.getUsername(),account.getPassword());
+            accountRoleService.createAccountRole(accountService.findByUsername(user.getEmail()).getId(),2);//Role 2 là role member
             membership.setEmail(user.getEmail());
             membership.setAccount(accountService.findByUsername(user.getEmail()));
             memberShipService.createMembershipSocial(membership);
-            accountRoleService.createAccountRole(account.getId(),2);//Role 2 là role member
+            LoginRequest jwtRequest = new LoginRequest(account.getUsername(), account.getPassword());
+            jwtResponse = loginSocial(jwtRequest);
+            jwtResponse.setAccount(accountService.findByUsername(account.getUsername()));
+            jwtResponse.setMembership(memberShipService.findByEmail(user.getEmail()));
+            return ResponseEntity.ok(jwtResponse);
         }
-        membership = memberShipService.findByEmail(user.getEmail());
         account = membership.getAccount();
         LoginRequest jwtRequest = new LoginRequest(account.getUsername(), account.getPassword());
         jwtResponse = loginSocial(jwtRequest);
         jwtResponse.setAccount(accountService.findByUsername(account.getUsername()));
-        jwtResponse.setMembership(membership);
+        jwtResponse.setMembership(memberShipService.findByAccountId(account.getId()));
         return ResponseEntity.ok(jwtResponse);
     }
     private JwtResponse loginSocial(LoginRequest loginRequest) {
@@ -172,7 +174,7 @@ public class SecurityController {
         Membership membership = memberShipService.findByAccountId(account.getId());
         String email = membership.getEmail();
         String code = accountService.generateCode();
-//        accountService.sendEmailOTP(email,code);
+        accountService.sendEmailOTP(email,code);
         return ResponseEntity.ok(code);
     }
     @GetMapping("/api/public/reset-password/{username}")
@@ -211,10 +213,22 @@ public class SecurityController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/api/public/password/{username}")
+    @PutMapping("/api/member/password/{username}")
     public ResponseEntity<?> changePassword(@RequestBody AccountDTO accountDTO,
                                             @PathVariable String username) {
         Account account = accountService.findByUsername(username);
+        Map<String, String> listError = new HashMap<>();
+        if(!accountService.checkChangePassword(account,accountDTO)){
+            listError.put("failPassword", "Mật khẩu cũ sai");
+        }
+        if(accountService.checkNewPwEqualOldPw(account,accountDTO)){
+            listError.put("equalPassword", "Mật khẩu mới trùng với mật khẩu cũ nên bạn không cần thay đổi!");
+        }
+        if (!listError.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(listError);
+        }
         accountService.changePassword(account,accountDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
