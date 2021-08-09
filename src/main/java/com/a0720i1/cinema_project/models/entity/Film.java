@@ -36,7 +36,6 @@ public class Film {
     private String description;
     @Lob
     private String age;
-    private double rate;
     private String trailer;
 
     @JsonBackReference
