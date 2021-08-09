@@ -73,7 +73,7 @@ public class FilmController {
         }
     }
 
-    @DeleteMapping("/admin/film/delete/{id}")
+    @DeleteMapping("/api/admin/film/delete/{id}")
     public ResponseEntity<?> deleteFilm(@PathVariable long id) {
         this.filmService.deleteFilm(id);
         return new ResponseEntity<>(HttpStatus.OK);

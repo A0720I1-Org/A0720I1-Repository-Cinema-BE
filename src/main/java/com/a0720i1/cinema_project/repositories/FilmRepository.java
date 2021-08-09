@@ -46,8 +46,13 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
      */
     @Transactional
     @Modifying
-    @Query(value = "insert into film(actors, age, category, description, directors, duration, imageurl, name, studio, start_date, end_date, trailer) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)", nativeQuery = true)
-    void createFilm(String actors, String age, String category, String descriptions, String directors, int durations, String imageUrl, String name, String studio, LocalDate start_date, LocalDate end_date, String trailers);
+    @Query(value = "insert into film(actors, age, category, description, directors, duration, imageurl, name, studio, start_date, end_date, trailer) " +
+            "values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)", nativeQuery = true)
+    void createFilm(String actors,
+                    String age, String category,
+                    String descriptions, String directors,
+                    int durations, String imageUrl, String name,
+                    String studio, LocalDate start_date, LocalDate end_date, String trailers);
 
     /**
      * Duy
