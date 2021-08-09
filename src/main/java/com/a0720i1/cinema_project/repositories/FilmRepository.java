@@ -38,7 +38,7 @@ public interface FilmRepository extends JpaRepository<Film, Long> {
             "where id = ?1", nativeQuery = true)
     FilmDetailDTO getFilmById(long id);
 
-    @Query(value = "select * from ticket_price", nativeQuery = true)
+    @Query(value = "select * from ticket_price where seat_code = 'v' or seat_code = 's'", nativeQuery = true)
     List<TicketPriceDTO> listTicketPrice();
 
     @Query(value = "select id, name, age, imageurl, trailer from film", nativeQuery = true)

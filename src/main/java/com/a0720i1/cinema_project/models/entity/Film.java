@@ -34,6 +34,7 @@ public class Film {
     private String category;
     @Lob
     private String description;
+    @Lob
     private String age;
     private double rate;
     private String trailer;
