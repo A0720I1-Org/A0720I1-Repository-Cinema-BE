@@ -8,6 +8,7 @@ import com.a0720i1.cinema_project.models.entity.Film;
 import com.a0720i1.cinema_project.models.entity.Showtime;
 
 import com.a0720i1.cinema_project.services.ShowTimeService;
+import com.a0720i1.cinema_project.services.TicketPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@RestController
 public class ShowTimeController {
     @Autowired
     ShowTimeService showTimeService;
 
     @Autowired
     PaymentMethodService paymentMethodService;
+
+    @Autowired
+    TicketPriceService ticketPriceService;
 
     @GetMapping("/api/member/showtime/get-showtime-showing")
     public ResponseEntity<?> getAllFilmShowingThisWeek(){
@@ -78,7 +82,7 @@ public class ShowTimeController {
     }
 
     //vu
-    @GetMapping("/api/member/showtime/listFilm")
+    @GetMapping("/api/admin/showtime/listFilm")
     public ResponseEntity<List<Film>> getAllFilm(){
         List<Film> films = showTimeService.findAllFilm();
         if (films.isEmpty()) {
@@ -87,7 +91,7 @@ public class ShowTimeController {
         return new ResponseEntity<>(films,HttpStatus.OK);
     }
 
-    @GetMapping("/api/member/showtime/listCinemaRoom")
+    @GetMapping("/api/admin/showtime/listCinemaRoom")
     public ResponseEntity<List<CinemaRoom>> getAllCinemaRoom(){
         List<CinemaRoom> cinemaRooms = showTimeService.findAllCinemaRoom();
         if (cinemaRooms.isEmpty()) {
@@ -97,15 +101,16 @@ public class ShowTimeController {
     }
 
 
-    @PostMapping("/api/member/showtime/create")
+    @PostMapping("/api/admin/showtime/create")
     @Transactional
     public ResponseEntity<?> createShowtime(@RequestBody ShowTimeDataDTO showtimeData) {
         for (CreateShowtimeDTO showtime : showtimeData.getShowtimeList()){
             this.showTimeService.createShowtimeDTO(showtime);
-            Showtime showtime1 = this.showTimeService.getShowtimeById(this.showTimeService.getMaxByIdShowtime());
+            Showtime createdShowtime = this.showTimeService.getShowtimeById(this.showTimeService.getMaxByIdShowtime());
 
-            for (CreateShowtimeSeatDTO createShowtimeSeatDTO:showtimeData.getSeatList()) {
-
+            for (CreateShowtimeSeatDTO seat :showtimeData.getSeatList()) {
+                Long ticketPriceId = ticketPriceService.getTicketPriceBySeatCode(seat.getCode()).getId();
+                showTimeService.createSeat(seat.getName(), createdShowtime.getId(), ticketPriceId);
             }
 //            get id cua showtime vua tao --------(ĐÃ CÓ SUẤT CHIẾU VỪA TẠO)
 //            for trong cai showtimeData.getSeatList()  ---(ĐỂ LẤY CÁC GHẾ TRONG PHÒNG)

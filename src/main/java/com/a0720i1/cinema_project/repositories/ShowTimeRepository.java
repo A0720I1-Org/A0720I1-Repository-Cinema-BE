@@ -69,5 +69,9 @@ public interface ShowTimeRepository extends JpaRepository<Showtime, Long> {
             "left join cinema_room on showtime.cinema_room_id = cinema_room.id " +
             "where ticket.invoice_id = ?1 limit 1", nativeQuery = true)
     BookTicketShowtimeDto getShowtimeByInvoiceId(long invoiceId);
+
+    @Modifying
+    @Query(value = "insert into seat(name, showtime_id, ticket_price_id) values (?1, ?2, ?3)", nativeQuery = true)
+    void createSeat(String name, long showtimeId, long ticketPriceId);
 }
 

@@ -33,6 +33,8 @@ public interface ShowTimeService {
     CinemaRoomLayout getCinemaRoomLayoutByShowtimeId(long showtimeId);
 
     BookTicketShowtimeDto getShowtimeByInvoiceId(long invoiceId);
+
+    void createSeat(String name, long showtimeId, long ticketPriceId);
 }
 
 

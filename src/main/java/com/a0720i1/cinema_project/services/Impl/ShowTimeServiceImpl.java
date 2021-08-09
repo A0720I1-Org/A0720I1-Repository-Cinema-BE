@@ -81,5 +81,10 @@ public class ShowTimeServiceImpl implements ShowTimeService {
         return showTimeRepository.getShowtimeByInvoiceId(invoiceId);
     }
 
+    @Override
+    public void createSeat(String name, long showtimeId, long ticketPriceId) {
+        showTimeRepository.createSeat(name, showtimeId, ticketPriceId);
+    }
+
 
 }
