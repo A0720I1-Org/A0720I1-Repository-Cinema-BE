@@ -96,8 +96,8 @@ public class MemberShipController {
         }
         return new ResponseEntity<>(membership,HttpStatus.OK);
     }
-    @GetMapping("/api/member/ticket")
-    public ResponseEntity<Page<TicketDTO>> getTicketOfMember(@RequestParam long id,@PageableDefault(value=5) Pageable pageable) {
+    @GetMapping("/api/public/ticket")
+    public ResponseEntity<Page<TicketDTO>> getTicketOfMember(@RequestParam long id,@PageableDefault(value=7) Pageable pageable) {
         Page<TicketDTO> tickets = ticketService.findTicketOfMembership(pageable, id);
         if (tickets == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

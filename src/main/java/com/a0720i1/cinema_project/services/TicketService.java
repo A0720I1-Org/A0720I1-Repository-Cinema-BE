@@ -16,4 +16,5 @@ public interface TicketService {
     Page<TicketMemberDTO> findAllTicket(Pageable pageable);
     void updatePrintedTicket(Long invoiceId);
     Page<TicketMemberDTO> findAllTicketBySearch(String key,Pageable pageable);
+    TicketMemberDTO getInvoiceMember(Long id);
 }

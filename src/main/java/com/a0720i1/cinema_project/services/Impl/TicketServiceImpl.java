@@ -58,4 +58,9 @@ public class TicketServiceImpl implements TicketService {
     public Page<TicketMemberDTO> findAllTicketBySearch(String key, Pageable pageable) {
         return ticketRepository.findAllTicketBySearch(key,pageable);
     }
+
+    @Override
+    public TicketMemberDTO getInvoiceMember(Long id) {
+        return ticketRepository.findInvoiceMemberById(id);
+    }
 }

@@ -26,7 +26,11 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<AccountRole> accountRoleList;
 
-
-    public Account(String name, String password) {
+    public Account(long id, String username, String password, boolean isEnable, List<AccountRole> accountRoleList) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.isEnable = isEnable;
+        this.accountRoleList = accountRoleList;
     }
 }

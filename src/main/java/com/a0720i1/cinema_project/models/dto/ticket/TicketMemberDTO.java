@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface TicketMemberDTO {
+    String getCode();
     Long getInvoiceId();
     String getMemberCode();
     String getMemberName();
@@ -13,4 +14,7 @@ public interface TicketMemberDTO {
     LocalDate getDay();
     LocalTime getTime();
     Long getPrinted();
+    String getCinemaRoom();
+    String getSeatName();
+    Double getPrice();
 }
