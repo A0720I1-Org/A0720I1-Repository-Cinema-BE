@@ -4,6 +4,8 @@ import com.a0720i1.cinema_project.common.SeatNotAvailableException;
 import com.a0720i1.cinema_project.models.dto.ticket.*;
 import com.a0720i1.cinema_project.models.entity.Invoice;
 import com.a0720i1.cinema_project.models.entity.Membership;
+import com.a0720i1.cinema_project.repositories.MemberShipRepository;
+import com.a0720i1.cinema_project.repositories.TicketRepository;
 import com.a0720i1.cinema_project.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,8 @@ public class InvoiceController {
     ShowTimeService showTimeService;
     @Autowired
     MemberShipService memberShipService;
+    @Autowired
+    TicketRepository ticketRepository;
 
     @PostMapping("/api/public/invoice/check-seat-available")
     public ResponseEntity<?> checkSeatAvailable(@RequestBody BookingInformation bookingInformation) throws SeatNotAvailableException {
@@ -77,7 +81,7 @@ public class InvoiceController {
         return new ResponseEntity<>(ticketList, HttpStatus.OK);
     }
     @GetMapping("/api/public/invoice")
-    public ResponseEntity<Page<TicketMemberDTO>> getAllTicket(@PageableDefault(value = 5) Pageable pageable) {
+    public ResponseEntity<Page<TicketMemberDTO>> getAllTicket(@PageableDefault(value = 7) Pageable pageable) {
         Page<TicketMemberDTO> tickets = ticketService.findAllTicket(pageable);
         if (tickets.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -85,7 +89,7 @@ public class InvoiceController {
         return new ResponseEntity<>(tickets,HttpStatus.OK);
     }
     @GetMapping("/api/public/invoice/{key}")
-    public ResponseEntity<Page<TicketMemberDTO>> getAllTicketBySearch(@PathVariable("key") String key,@PageableDefault(value = 5) Pageable pageable) {
+    public ResponseEntity<Page<TicketMemberDTO>> getAllTicketBySearch(@PathVariable("key") String key,@PageableDefault(value = 7) Pageable pageable) {
         Page<TicketMemberDTO> tickets = ticketService.findAllTicketBySearch(key,pageable);
         if (tickets.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -96,5 +100,11 @@ public class InvoiceController {
     public ResponseEntity<?> updateTicketPrinted(@PathVariable("id") Long invoiceId) {
         ticketService.updatePrintedTicket(invoiceId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/api/public/invoice-member/{id}")
+    public ResponseEntity<?> getTicketInvoice(@PathVariable("id") Long id) {
+        return ticketService.getInvoiceMember(id) == null
+                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(ticketService.getInvoiceMember(id),HttpStatus.OK);
     }
 }

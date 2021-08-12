@@ -104,7 +104,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "s.film_technology as filmTechnology, s.sub_title as subTitle \n" +
             "from film as f\n" +
             "left join showtime as s on f.id = s.film_id\n" +
-            "where f.id = ?1", nativeQuery = true)
+            "where f.id = ?1 limit 1", nativeQuery = true)
     FilmViewDTO getFilmDTOById(long id);
 
     @Query(value = "select * from ticket_price where seat_code = 'v' or seat_code = 's'", nativeQuery = true)
