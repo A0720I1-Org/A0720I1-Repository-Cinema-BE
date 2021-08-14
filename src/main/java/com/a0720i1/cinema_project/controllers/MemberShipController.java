@@ -1,8 +1,15 @@
 package com.a0720i1.cinema_project.controllers;
+
 import com.a0720i1.cinema_project.models.dto.membership.MembershipUpdateDTO;
 import com.a0720i1.cinema_project.models.dto.ticket.TicketDTO;
-import com.a0720i1.cinema_project.models.entity.*;
-import com.a0720i1.cinema_project.services.Impl.*;
+import com.a0720i1.cinema_project.models.entity.District;
+import com.a0720i1.cinema_project.models.entity.Membership;
+import com.a0720i1.cinema_project.models.entity.Province;
+import com.a0720i1.cinema_project.models.entity.Ward;
+import com.a0720i1.cinema_project.services.Impl.AccountServiceImpl;
+import com.a0720i1.cinema_project.services.Impl.DistrictServiceImpl;
+import com.a0720i1.cinema_project.services.Impl.ProvinceServiceImpl;
+import com.a0720i1.cinema_project.services.Impl.WardServiceImpl;
 import com.a0720i1.cinema_project.services.MemberShipService;
 import com.a0720i1.cinema_project.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,8 +96,8 @@ public class MemberShipController {
         }
         return new ResponseEntity<>(membership,HttpStatus.OK);
     }
-    @GetMapping("/api/member/ticket")
-    public ResponseEntity<Page<TicketDTO>> getTicketOfMember(@RequestParam long id,@PageableDefault(value=5) Pageable pageable) {
+    @GetMapping("/api/public/ticket")
+    public ResponseEntity<Page<TicketDTO>> getTicketOfMember(@RequestParam long id,@PageableDefault(value=7) Pageable pageable) {
         Page<TicketDTO> tickets = ticketService.findTicketOfMembership(pageable, id);
         if (tickets == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

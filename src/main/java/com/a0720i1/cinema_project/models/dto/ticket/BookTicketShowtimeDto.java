@@ -11,8 +11,8 @@ public interface BookTicketShowtimeDto {
     String getFilmCategory();
     String getFilmActors();
     String getFilmDirectors();
-    int getFilmDuration();
-    int getFilmAge();
+    Integer getFilmDuration();
+    String getFilmAge();
     String getFilmImageUrl();
     Long getShowtimeId();
     String getFilmTechnology();

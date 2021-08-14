@@ -7,9 +7,9 @@ import java.util.List;
 
 @Data
 public class BookingInformation {
-    private long showtimeId;
-    private long memberId;
+    private Long showtimeId;
+    private Long memberId;
     private List<Long> seatIdList;
     private BookTicketShowtimeDto showtime;
-    private long paymentMethodId;
+    private Long paymentMethodId;
 }
