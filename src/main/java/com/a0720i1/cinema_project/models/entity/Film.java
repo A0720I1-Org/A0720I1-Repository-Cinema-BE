@@ -34,6 +34,7 @@ public class Film {
     private String description;
     private String age;
     private double rate;
+    private String trailer;
 
     @JsonBackReference
     @OneToMany(mappedBy = "film")
