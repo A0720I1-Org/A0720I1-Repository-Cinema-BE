@@ -1,5 +1,7 @@
 package com.a0720i1.cinema_project.controllers;
 
+import com.a0720i1.cinema_project.common.ShowtimeNotAvailableException;
+import com.a0720i1.cinema_project.models.dto.film.FilmDTO;
 import com.a0720i1.cinema_project.models.dto.showtime.CreateShowtimeDTO;
 import com.a0720i1.cinema_project.models.dto.showtime.CreateShowtimeSeatDTO;
 import com.a0720i1.cinema_project.models.dto.showtime.ShowTimeDataDTO;
@@ -87,7 +89,7 @@ public class ShowTimeController {
     //vu
     @GetMapping("/api/admin/showtime/listFilm")
     public ResponseEntity<List<Film>> getAllFilm(){
-        List<Film> films = showTimeService.findAllFilm();
+        List<Film> films = showTimeService.getAllFilmAvailable();
         if (films.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -106,15 +108,21 @@ public class ShowTimeController {
 
     @PostMapping("/api/admin/showtime/create")
     @Transactional
-    public ResponseEntity<?> createShowtime(@RequestBody ShowTimeDataDTO showtimeData) {
+    public ResponseEntity<?> createShowtime(@RequestBody ShowTimeDataDTO showtimeData) throws ShowtimeNotAvailableException {
         for (CreateShowtimeDTO showtime : showtimeData.getShowtimeList()){
-            this.showTimeService.createShowtimeDTO(showtime);
-            Showtime createdShowtime = this.showTimeService.getShowtimeById(this.showTimeService.getMaxByIdShowtime());
+            if (showTimeService.checkShowtimeAvailable(showtime.getCinemaRoomId(), showtime.getDay(), showtime.getTime()).isEmpty()){
+                this.showTimeService.createShowtimeDTO(showtime);
+                Showtime createdShowtime = this.showTimeService.getShowtimeById(this.showTimeService.getMaxByIdShowtime());
 
-            for (CreateShowtimeSeatDTO seat :showtimeData.getSeatList()) {
-                Long ticketPriceId = ticketPriceService.getTicketPriceBySeatCode(seat.getCode()).getId();
-                showTimeService.createSeat(seat.getName(), createdShowtime.getId(), ticketPriceId);
+                for (CreateShowtimeSeatDTO seat :showtimeData.getSeatList()) {
+                    Long ticketPriceId = ticketPriceService.getTicketPriceBySeatCode(seat.getCode()).getId();
+                    showTimeService.createSeat(seat.getName(), createdShowtime.getId(), ticketPriceId);
+                }
+            } else {
+                throw new ShowtimeNotAvailableException("Đã có suất chiếu vào lúc " + showtime.getTime() +
+                        ", ngày " + showtime.getDay().getDayOfMonth() + "-" + showtime.getDay().getMonthValue() + "-" + showtime.getDay().getYear());
             }
+
 //            get id cua showtime vua tao --------(ĐÃ CÓ SUẤT CHIẾU VỪA TẠO)
 //            for trong cai showtimeData.getSeatList()  ---(ĐỂ LẤY CÁC GHẾ TRONG PHÒNG)
 ////          đã có showtimeId, seatName, seatCode (n,v,s)----(Lấy đc Phòng chiếu, chỗ ghế ngồi , mã ghế )

@@ -37,4 +37,11 @@ public class CustomizeResponseEntityExceptionHandler extends ResponseEntityExcep
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ShowtimeNotAvailableException.class)
+    public final ResponseEntity<ExceptionResponse> handleSeatNotAvailableException(ShowtimeNotAvailableException e, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), e.getMessage(),
+                request.getDescription(false), HttpStatus.BAD_REQUEST.getReasonPhrase());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }

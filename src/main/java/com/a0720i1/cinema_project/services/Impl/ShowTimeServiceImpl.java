@@ -1,5 +1,6 @@
 package com.a0720i1.cinema_project.services.Impl;
 //vu
+import com.a0720i1.cinema_project.models.dto.film.FilmDTO;
 import com.a0720i1.cinema_project.models.dto.showtime.CreateShowtimeDTO;
 import com.a0720i1.cinema_project.models.entity.CinemaRoom;
 import com.a0720i1.cinema_project.models.entity.Film;
@@ -84,6 +85,16 @@ public class ShowTimeServiceImpl implements ShowTimeService {
     @Override
     public void createSeat(String name, long showtimeId, long ticketPriceId) {
         showTimeRepository.createSeat(name, showtimeId, ticketPriceId);
+    }
+
+    @Override
+    public List<Film> getAllFilmAvailable() {
+        return filmRepository.getAllFilmAvailable();
+    }
+
+    @Override
+    public List<Showtime> checkShowtimeAvailable(long cinemaRoomId, LocalDate day, LocalTime time) {
+        return showTimeRepository.checkShowtimeAvailable(cinemaRoomId, day, time);
     }
 
 

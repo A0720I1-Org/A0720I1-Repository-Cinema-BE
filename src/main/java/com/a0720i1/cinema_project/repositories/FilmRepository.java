@@ -112,4 +112,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     @Query(value = "select id, name, age, imageurl, trailer from film", nativeQuery = true)
     List<FilmTopDTO> getTopFilm();
+
+    @Query(value = "select * from film where film.end_date > CURRENT_DATE order by film.name", nativeQuery = true)
+    List<Film> getAllFilmAvailable();
 }
