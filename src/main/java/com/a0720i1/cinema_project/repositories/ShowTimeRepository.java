@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -17,6 +18,7 @@ import com.a0720i1.cinema_project.models.dto.ticket.BookingSeatDTO;
 import com.a0720i1.cinema_project.models.dto.ticket.CinemaRoomLayout;
 
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -43,7 +45,7 @@ public interface ShowTimeRepository extends JpaRepository<Showtime, Long> {
             "showtime.film_technology as filmTechnology, showtime.sub_title as subtitle \n" +
             "FROM film RIGHT JOIN showtime ON film.id = showtime.film_id\n" +
             "LEFT JOIN cinema_room on cinema_room.id = showtime.cinema_room_id " +
-            " WHERE showtime.day >= CURDATE()  AND showtime.day <= NOW() + INTERVAL 7 DAY", nativeQuery = true)
+            " WHERE showtime.day >= CURDATE()  AND showtime.day <= NOW() + INTERVAL 7 DAY ORDER BY film.start_date DESC, film.name, showtime.day, showtime.time", nativeQuery = true)
     List<BookTicketShowtimeDto> getAllFilmShowingThisWeek();
 
     @Query(value = "SELECT seat.id , seat.name, ticket_price.seat_type as seatType, ticket_price.seat_code as seatCode, ticket_price.id as priceId, ticket_price.price as price, ticket.id as ticketId\n" +
@@ -73,6 +75,9 @@ public interface ShowTimeRepository extends JpaRepository<Showtime, Long> {
     @Modifying
     @Query(value = "insert into seat(name, showtime_id, ticket_price_id) values (?1, ?2, ?3)", nativeQuery = true)
     void createSeat(String name, long showtimeId, long ticketPriceId);
+
+    @Query(value = "select * from showtime where showtime.cinema_room_id = ?1 and showtime.day = ?2 and showtime.time = ?3", nativeQuery = true)
+    List<Showtime> checkShowtimeAvailable(long cinemaRoomId, LocalDate day, LocalTime time);
 
 }
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/member/paypal")
+@RequestMapping("/api/public/paypal")
 public class PayPalController {
 
     public static final String URL_PAYPAL_SUCCESS = "/pay/success";

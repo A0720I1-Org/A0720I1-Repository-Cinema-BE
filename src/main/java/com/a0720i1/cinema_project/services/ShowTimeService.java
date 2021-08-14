@@ -1,5 +1,6 @@
 package com.a0720i1.cinema_project.services;
 
+import com.a0720i1.cinema_project.models.dto.film.FilmDTO;
 import com.a0720i1.cinema_project.models.dto.showtime.CreateShowtimeDTO;
 import com.a0720i1.cinema_project.models.entity.CinemaRoom;
 import com.a0720i1.cinema_project.models.entity.Film;
@@ -35,6 +36,10 @@ public interface ShowTimeService {
     BookTicketShowtimeDto getShowtimeByInvoiceId(long invoiceId);
 
     void createSeat(String name, long showtimeId, long ticketPriceId);
+
+    List<Film> getAllFilmAvailable();
+
+    List<Showtime> checkShowtimeAvailable(long cinemaRoomId, LocalDate day, LocalTime time);
 }
 
 
