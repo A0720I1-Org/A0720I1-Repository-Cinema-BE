@@ -1,5 +1,4 @@
 package com.a0720i1.cinema_project.controllers;
-
 import com.a0720i1.cinema_project.common.SeatNotAvailableException;
 import com.a0720i1.cinema_project.models.dto.ticket.*;
 import com.a0720i1.cinema_project.models.entity.Invoice;

@@ -1,5 +1,4 @@
 package com.a0720i1.cinema_project.controllers;
-
 import com.a0720i1.cinema_project.common.ShowtimeNotAvailableException;
 import com.a0720i1.cinema_project.models.dto.film.FilmDTO;
 import com.a0720i1.cinema_project.models.dto.showtime.CreateShowtimeDTO;
@@ -8,7 +7,6 @@ import com.a0720i1.cinema_project.models.dto.showtime.ShowTimeDataDTO;
 import com.a0720i1.cinema_project.models.entity.CinemaRoom;
 import com.a0720i1.cinema_project.models.entity.Film;
 import com.a0720i1.cinema_project.models.entity.Showtime;
-
 import com.a0720i1.cinema_project.services.ShowTimeService;
 import com.a0720i1.cinema_project.services.TicketPriceService;
 import org.springframework.beans.factory.annotation.Autowired;

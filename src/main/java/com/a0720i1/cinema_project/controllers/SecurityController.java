@@ -1,5 +1,4 @@
 package com.a0720i1.cinema_project.controllers;
-
 import com.a0720i1.cinema_project.config.JwtTokenUtil;
 import com.a0720i1.cinema_project.jwt.JwtResponse;
 import com.a0720i1.cinema_project.jwt.LoginRequest;

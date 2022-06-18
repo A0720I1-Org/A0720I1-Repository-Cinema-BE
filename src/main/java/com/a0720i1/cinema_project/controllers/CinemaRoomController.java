@@ -1,5 +1,4 @@
 package com.a0720i1.cinema_project.controllers;
-
 import com.a0720i1.cinema_project.models.dto.dto_cinemaroom.ListCinemaRoomDTO;
 import com.a0720i1.cinema_project.services.Impl.CinemaRoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
