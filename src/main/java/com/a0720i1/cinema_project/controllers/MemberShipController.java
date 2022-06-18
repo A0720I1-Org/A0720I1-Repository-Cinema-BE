@@ -1,5 +1,4 @@
 package com.a0720i1.cinema_project.controllers;
-
 import com.a0720i1.cinema_project.models.dto.membership.MembershipUpdateDTO;
 import com.a0720i1.cinema_project.models.dto.ticket.TicketDTO;
 import com.a0720i1.cinema_project.models.entity.District;
@@ -41,11 +40,10 @@ public class MemberShipController {
     TicketService ticketService;
     @GetMapping("/api/public/address/ward")
     public ResponseEntity<List<Ward>> findWardByDistrictId(@RequestParam(value = "districtId",required = false) Integer districtId) {
-        if(districtId == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(wardService.findAllByDistrictId(districtId));
-
+      if(districtId == null) {
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      }
+      return ResponseEntity.ok(wardService.findAllByDistrictId(districtId));
     }
     @GetMapping("/api/public/address/district")
     public ResponseEntity<List<District>> findDistrictByDistrictId(@RequestParam(value = "provinceId",required = false) Integer provinceId) {
