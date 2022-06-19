@@ -47,21 +47,21 @@ public class MemberShipController {
     }
     @GetMapping("/api/public/address/district")
     public ResponseEntity<List<District>> findDistrictByDistrictId(@RequestParam(value = "provinceId",required = false) Integer provinceId) {
-        if(provinceId == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(districtService.findAllByProvinceId(provinceId));
+      if(provinceId == null) {
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      }
+      return ResponseEntity.ok(districtService.findAllByProvinceId(provinceId));
     }
     @GetMapping("/api/public/address/province")
     public ResponseEntity<List<Province>> findProvince() {
-        return ResponseEntity.ok(provinceService.findAll());
+      return ResponseEntity.ok(provinceService.findAll());
     }
     @GetMapping("/api/public/membership")
     public ResponseEntity<Membership> findMembershipByAccountId(@RequestParam(value = "accountId",required = false) Long accountId){
-        if(accountId == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(memberShipService.findByAccountId(accountId));
+      if(accountId == null) {
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      }
+      return ResponseEntity.ok(memberShipService.findByAccountId(accountId));
     }
     @PutMapping(value = "/api/member/membership",produces = {MediaType.APPLICATION_JSON_VALUE},consumes ={MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<?> updateMembership(@RequestBody MembershipUpdateDTO membership) {
