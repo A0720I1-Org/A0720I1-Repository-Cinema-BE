@@ -1,5 +1,4 @@
 package com.a0720i1.cinema_project.controllers;
-
 import com.a0720i1.cinema_project.models.dto.membership.MembershipUpdateDTO;
 import com.a0720i1.cinema_project.models.dto.ticket.TicketDTO;
 import com.a0720i1.cinema_project.models.entity.District;
